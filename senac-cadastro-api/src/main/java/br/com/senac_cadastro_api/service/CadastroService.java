@@ -6,6 +6,7 @@ import br.com.senac_cadastro_api.repository.CadastroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,8 +14,8 @@ public class CadastroService {
     @Autowired
     private CadastroRepository cadastroRepository;
 
-    public Cadastro criarCadastro (Cadastro cadastro)
-    {
+
+    public Cadastro Cadastrar(Cadastro cadastro) {
         if (cadastro.getDocumento() == null|| cadastro.getDocumento().isEmpty())
         {
             throw new IllegalArgumentException("O documento não pode ser vazio.");
@@ -29,7 +30,7 @@ public class CadastroService {
         return cadastroRepository.save(cadastro);
     }
 
-    public Cadastro atualizarCadastro (Long id, Cadastro cadastroAtualizado){
+    public Cadastro AtualizarCadastro (Long id, Cadastro cadastroAtualizado){
         Optional<Cadastro> clienteExistente = cadastroRepository.findById(id);
 
         if (clienteExistente.isEmpty()){
@@ -38,17 +39,15 @@ public class CadastroService {
         return cadastroRepository.save(cadastroAtualizado);
     }
 
-    public boolean excluirCadastro(Long id) {
-
-        Optional<Cadastro> clienteExistente = cadastroRepository.findById(id);
-
-        if (clienteExistente.isEmpty()) {
-            return false;
+    public void ExcluirCadastro(Long id) {
+        if (!cadastroRepository.existsById(id)) {
+            throw new RuntimeException("Cadastro com ID " + id + " não encontrado.");
         }
-
         cadastroRepository.deleteById(id);
+    }
 
-        return true;
+    public List<Cadastro> ListarClientes() {
+        return  cadastroRepository.findAll();
     }
 }
 
