@@ -1,8 +1,8 @@
 package br.com.senac_cadastro_api.service;
 
 
-import br.com.senac_cadastro_api.entity.Cadastro;
-import br.com.senac_cadastro_api.repository.CadastroRepository;
+import br.com.senac_cadastro_api.entity.Clientes;
+import br.com.senac_cadastro_api.repository.ClientesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CadastroService {
+public class ClientesService {
     @Autowired
-    private CadastroRepository cadastroRepository;
+    private ClientesRepository clientesRepository;
 
 
-    public Cadastro Cadastrar(Cadastro cadastro) {
+    public Clientes Cadastrar(Clientes cadastro) {
         if (cadastro.getDocumento() == null|| cadastro.getDocumento().isEmpty())
         {
             throw new IllegalArgumentException("O documento não pode ser vazio.");
@@ -27,27 +27,27 @@ public class CadastroService {
         if (cadastro.getSobrenome()==null|| cadastro.getSobrenome().isEmpty()){
             throw new IllegalArgumentException("O sobrenome não pode ser vazio.");
         }
-        return cadastroRepository.save(cadastro);
+        return clientesRepository.save(cadastro);
     }
 
-    public Cadastro AtualizarCadastro (Long id, Cadastro cadastroAtualizado){
-        Optional<Cadastro> clienteExistente = cadastroRepository.findById(id);
+    public Clientes AtualizarCadastro (Long id, Clientes cadastroAtualizado){
+        Optional<Clientes> clienteExistente = clientesRepository.findById(id);
 
         if (clienteExistente.isEmpty()){
             throw new RuntimeException("O cliente não foi encontrado");
         }
-        return cadastroRepository.save(cadastroAtualizado);
+        return clientesRepository.save(cadastroAtualizado);
     }
 
     public void ExcluirCadastro(Long id) {
-        if (!cadastroRepository.existsById(id)) {
+        if (!clientesRepository.existsById(id)) {
             throw new RuntimeException("Cadastro com ID " + id + " não encontrado.");
         }
-        cadastroRepository.deleteById(id);
+        clientesRepository.deleteById(id);
     }
 
-    public List<Cadastro> ListarClientes() {
-        return  cadastroRepository.findAll();
+    public List<Clientes> ListarClientes() {
+        return  clientesRepository.findAll();
     }
 }
 

@@ -1,15 +1,14 @@
 package br.com.senac_cadastro_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-public class Cadastro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Clientes extends EntidadeMaster{
 
-    private Long id;
 
     @Column(nullable = false)
     private String documento;
@@ -22,24 +21,25 @@ public class Cadastro {
 
     @Column(nullable = false,length = 150)
     private String email;
-
     private int idade;
-
     private String sexo;
-
     private LocalDate dataNascimento;
-
     private int ddd ;
-
     private int telefone;
 
-    public Long getId() {
-        return id;
+    @OneToMany(mappedBy = "clientes")
+    @JsonBackReference
+    private List<Enderecos> enderecos;
+
+    public List<Enderecos> getEnderecos() {
+        return enderecos;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEnderecos(List<Enderecos> enderecos) {
+        this.enderecos = enderecos;
     }
+
+
 
     public int getTelefone() {
         return telefone;
